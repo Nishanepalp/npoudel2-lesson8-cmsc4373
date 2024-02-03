@@ -1,7 +1,7 @@
 import { currentUser } from "../controller/firebase_auth.js";
 import { onSubmitCalcForm } from "../controller/home_controller.js";
 import { root } from "./elements.js";
-import { protectedView } from "./proetected_view.js";
+import { protectedView } from "./protected_view.js";
 
 export async function homePageView() {
     if (!currentUser) {
