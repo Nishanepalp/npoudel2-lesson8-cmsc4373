@@ -1,6 +1,5 @@
-<!doctype html>
+ <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,13 +33,14 @@
             <button id= "menu-signout" class="btn btn-outline-danger me-2">Sign Out</button>
            </li>
         </ul>
+        <span id ="userInfo" class="text-end btn btn-secondary me-2" >No User</span>
       </div>
     </div>
   </nav>
 <!-- place holder for single page view -->
 <div id="root" class="m-2 p-2 bg-secondary bg-opacity-25">Single Page View </div>
   <!-- Firebase core library -->
-  <script type="module" scr="./controller/firebase_core.js"></script>
+  <script type="module" src ="./controller/firebase_core.js"></script>
 
   <!-- My own custom code  -->
   <script type="module" src="app.js"></script>
@@ -50,5 +50,4 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
 </body>
-
 </html>

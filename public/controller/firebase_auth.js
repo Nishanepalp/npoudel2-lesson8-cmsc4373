@@ -6,8 +6,11 @@ import {
 import { app } from "./firebase_core.js";
 import { homePageView } from "../view/home_page.js";
 import { signinPageView } from "../view/signin_page.js";
+import { routePathnames, routing } from "./route_controller.js";
+import { userInfo } from "../view/elements.js";
 
 const auth = getAuth(app);
+export let currentUser = null;
 
 export async function signinFirebase(e) {
     e.preventDefault();
@@ -29,25 +32,32 @@ export function attachAuthStateChangeObserver() {
     onAuthStateChanged(auth, authStateChangeListener);
 }
 function authStateChangeListener(user) {
+    currentUser = user;
     if (user){
+        userInfo.textContent =user.email;
         const postAuth = document.getElementsByClassName('myclass-postauth');
         for (let i = 0; i< postAuth.length; i++){
             postAuth[i].classList.replace('d-none', 'd-block');
         }
         const preAuth = document.getElementsByClassName('myclass-preauth');
         for (let i=0; i < preAuth.length; i++){
-            preAuth[i].classList('d-block', 'd-none');
+            preAuth[i].classList.replace('d-block', 'd-none');
         }
-        homePageView();
+        const pathname = window.location.pathname;
+        const hash = window.location.hash;
+        routing(pathname,hash);
+
  }else {
+    userInfo.textContent = 'No User';
     const postAuth = document.getElementsByClassName('myclass-postauth');
         for (let i = 0; i< postAuth.length; i++){
             postAuth[i].classList.replace('d-block', 'd-none');
         }
         const preAuth = document.getElementsByClassName('myclass-preauth');
         for (let i=0; i < preAuth.length; i++){
-            preAuth[i].classList('d-none', 'd-block');
+            preAuth[i].classList.replace('d-none', 'd-block');
         }
+        history.pushState(null, null, routePathnames.HOME);
         signinPageView();
  }
 
