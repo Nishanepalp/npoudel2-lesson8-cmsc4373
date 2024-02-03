@@ -6,6 +6,13 @@ import { signinPageView } from "./view/signin_page.js";
 document.getElementById('menu-home').onclick = onClickHomeMenu;
 document.getElementById('menu-menu2').onclick = onClickMenu2Menu;
 document.getElementById('menu-signout').onclick = onClickSignoutMenu;
+
 attachAuthStateChangeObserver();
 
-signinPageView();
+window.onload = function(e) {
+    const pathname = window.location.pathname;
+    const hash = window.location.hash;
+    console.log(pathname, hash);
+    
+}
+
