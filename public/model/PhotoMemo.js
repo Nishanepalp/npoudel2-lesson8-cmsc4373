@@ -7,6 +7,7 @@ export class PhotoMemo{
         this.createdBy=data.createdBy;
         this.imageName=data.imageName;
         this.imageURL=data.imageURL;
+        this.imageClasses=data.imageClasses;
         this.timestamp=data.timestamp;
         if (!data['sharedWith'])
             this.sharedWith=[];
@@ -26,8 +27,25 @@ export class PhotoMemo{
             createdBy: this.createdBy,
             imageName: this.imageName,
             imageURL: this.imageURL,
+            imageClasses: this.imageClasses,
             timestamp: this.timestamp,
             sharedWith: this.sharedWith,
         };
+    }
+    
+    static validateSharedWith(value){
+        const str=value.trim();
+        if(str.length==0){
+            return '';
+        }
+        const emails = str.split(/[,|;| ]+/);
+        let invalidMessage='';
+
+            for (let i = 0; i < emails.length; i++) {
+                if (!(/^[0-9]+@uco\.com/.test(emails[i]))) {
+                    invalidMessage += `${emails[i]}`;
+                }
+            }
+            return invalidMessage;
     }
 }

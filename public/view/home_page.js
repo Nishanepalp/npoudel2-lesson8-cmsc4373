@@ -1,10 +1,25 @@
 import { currentUser } from "../controller/firebase_auth.js";
 import { root } from "./elements.js"
 import { protectedView } from "./protected_view.js";
-import { onChangeImageFile, onClickCreateButton, onClickCreateForm2ValidateSharedWith, onSubmitCreateForm } from "../controller/home_controller.js";
+import { onChangeImageFile, onClickCardView, onClickCreateButton, onClickCreateForm2ValidateSharedWith, onMouseOutCardView, onMouseOverCardView, onSubmitCreateForm, onSubmitSearchForm } from "../controller/home_controller.js";
 import { getPhotoMemoList } from "../controller/firestore_controller.js";
 
 let photoMemoList = null;
+export let editOverlayModal;
+
+export function removeFromPhotoMemoList(photoMemo){
+    const index = photoMemo.findIndex(p => p.docId==photoMemo.docId);
+    if(index >=0)
+    photoMemoList.splice(index, 1);
+}
+
+export function reorderPhotoMemoList(){
+    photoMemoList.sort((a,b) =>{
+        if(a.timestamp<b.timestamp) return 1;
+        else if (a.timestamp>b.timestamp) return -1;
+        else return 0;
+    })
+}
 
 export function prependPhotoMemoList(p){
     photoMemoList.splice(0, 0, p);
@@ -30,7 +45,10 @@ export async function homePageView() {
     divWrapper.querySelector('#form-create').onsubmit = onSubmitCreateForm;
     divWrapper.querySelector('#form-create').onclick = onClickCreateForm2ValidateSharedWith;
     divWrapper.querySelector('#image-file-input').onchange = onChangeImageFile;
+    divWrapper.querySelector('#form-search').onsubmit=onSubmitSearchForm;
     let homeRoot = divWrapper.querySelector('#home-root');
+    const editOverlay = divWrapper.querySelector('#edit-overlay');
+    editOverlayModal=new bootstrap.Modal(editOverlay, {backdrop: 'static'});
 
 
     root.innerHTML = '';
@@ -60,10 +78,13 @@ export async function homePageView() {
     });
 }
 
-function createPhotoMemoView(photoMemo) {
+export function createPhotoMemoView(photoMemo) {
     const cardView = document.createElement('div');
     cardView.classList.add('card', 'd-inline-flex');
     cardView.style = 'width: 18rem;';
+    cardView.onmouseover= e => onMouseOverCardView(e,cardView);
+    cardView.onmouseout= e => onMouseOutCardView(e,cardView);
+    cardView.onclick= e => onClickCardView(e,cardView, photoMemo);
 
     const img = document.createElement('img');
     img.src = photoMemo.imageURL;
@@ -87,7 +108,8 @@ function createPhotoMemoView(photoMemo) {
         <hr>
         Created By: ${photoMemo.createdBy}<br>
         Created At: ${new Date(photoMemo.timestamp).toLocaleString()}<br>
-        SharedWith: ${photoMemo.sharedWith.join('; ')}
+        SharedWith: ${photoMemo.sharedWith.join('; ')}<br>
+        <I> Image classes: [${Array.isArray(photoMemo.imageClasses) ? photoMemo.imageClasses.join('; ') : 'N/A'}]<I>
     `;
     cardBody.appendChild(p);
 

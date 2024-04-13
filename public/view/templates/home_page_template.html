@@ -1,33 +1,64 @@
 <div id="div-create-button" class="d-block">
+    <form id="form-search" class="d-inline" role="search">
+        <input class="w-50" type="search" name="searchKeys" required minlength="2"
+            placeholder="Enter words separated by a space">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
     <button id="button-create" class="btn btn-outline-primary float-end">Create</button>
 </div>
 
 <div id="div-create-form" class="d-none">
     <form id="form-create">
         <div class="mb-3">
-            <input required minlength="3" type="text" name="title"
-                class="form-control" placeholder="Title">
+            <input required minlength="3" type="text" name="title" class="form-control" placeholder="Title">
         </div>
         <div class="mb-3">
-            <textarea required minlength="5" class="form-control" name="memo"
-                 placeholder="Memo"></textarea>
+            <textarea required minlength="5" class="form-control" name="memo" placeholder="Memo"></textarea>
         </div>
         <div class="mb-3">
-            <input id="shared-with" type="text" name="sharedWith"
-                class="form-control" placeholder="Shared With">
+            <input id="shared-with" type="text" name="sharedWith" class="form-control" placeholder="Shared With">
         </div>
         <div class="mb-3">
             <label for="image-file-input" class="form-label">Select a photo</label>
-            <input type="file" required class="form-control" id="image-file-input"
-                 accept="image/*">
-            <img id="img-tag" src="" height="200" class="d-inline-block">   
+            <input type="file" required class="form-control" id="image-file-input" accept="image/*">
+            <img id="img-tag" src="" height="200" class="d-inline-block">
         </div>
         <div>
             <button value="save" type="submit" class="btn btn-outline-primary">Save</button>
-            <button value="cancel" type="submit" formnovalidate
-                class="btn btn-outline-secondary">Cancel</button>
+            <button value="cancel" type="submit" formnovalidate class="btn btn-outline-secondary">Cancel</button>
         </div>
     </form>
 </div>
 
 <div id="home-root" class="row mt-3"></div>
+
+<div class="modal fade" id="edit-overlay" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="form-edit" method="post">
+                    <img src="#" height="200px">
+                    <div class="mb-3">
+                        Title: <input required minlength="3" type="text" name="title"
+                            class="form-control" placeholder="Title">
+                    </div>
+                    <div>
+                        Memo: <textarea required minlength="5" class="form-control"  
+                            name="memo" placeholder="Memo" rows="5"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        Shared With: <input id="edit-shared-with" type="text" name="sharedWith" class="form-control"
+                                        placeholder="Shared With email list">
+                    </div>
+                    <div class="modal-footer">
+                        <button value="save" type="submit" class="btn btn-outline-primary">Save</button>
+                        <button value="delete" type="submit" class="btn btn-outline-danger">Delete</button>
+                        <button value="cancel" type="submit" formnovalidate class="btn btn-outline-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        
+        </div>
+    </div>
+</div>

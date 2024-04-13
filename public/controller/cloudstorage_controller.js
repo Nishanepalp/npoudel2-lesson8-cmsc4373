@@ -22,3 +22,9 @@ export async function uploadImage(imageFile, imageName){
     return {imageName, imageURL};
 
 }
+
+export async function deleteImage(imageName){
+    const imagePath =`${IMAGE_FOLDER}/${currentUser.uid}/${imageName}`;
+    const fileRef=ref(storage, imagePath);
+    await deleteObject(fileRef);
+}
